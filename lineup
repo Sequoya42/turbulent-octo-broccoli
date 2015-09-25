@@ -1,0 +1,45 @@
+7 philosophers
+
+Each own its own thread
+
+A stick to the left of each one(7 total)
+
+They can use a stick if its is free(to the left or right of them)
+
+2 philo cannot use the same stick at the same time
+
+3 steps for each philo:
+
+-Eats with two stick (left and right)
+-Rest, without sticks, even if available.
+-Think. With one and only one stick in hand
+
+After rest, he can either eat or think.
+If a neighbour think, he can get his stick stolen.
+
+A philo who does not eat loose 1 HP per sec.
+
+After eating, he get all his HP back and get to rest.
+
+If HP = 0, he dies.
+Simulation stops till the press of a button (free choice).
+This button free ressources and quit the program.
+
+Respect the randomness of threads.
+No specific order.
+
+MACRO TO HAVE:
+
+MAX_LIFE : hp max of philo
+
+EAT_T : nb of sec a philo takes to eat.
+
+REST_T : nb of sec a philo rest.
+
+THINK_T: nb of sec a philo thinks.
+
+TIMEOUT: nb of sec after simulation stops and print
+“Now, it is time... To DAAAAAAAANCE ! ! !” 
+
+Graphical interface to show what is going on
+
