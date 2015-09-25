@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/25 22:51:04 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/25 23:03:47 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 #include "SDL2/SDL.h"
 #include "libft.h"
 
-# define WIDTH 	800
-# define HEIGHT	900
+# define WIDTH 	1600
+# define HEIGHT	1000
 # define KEY 	t->event.key.keysym.sym
 
 # define PHILO		7

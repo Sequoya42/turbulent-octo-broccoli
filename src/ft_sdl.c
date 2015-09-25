@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/25 23:02:09 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/25 23:04:10 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			ft_init(t_sdl *t)
 	if ((SDL_Init(SDL_INIT_VIDEO)) == -1)
 		return (ft_error(NULL, NULL, "Cannot init SDL"));
 	t->window = SDL_CreateWindow
-		("Philo", 500, 300, WIDTH, HEIGHT, 0);
+		("Philo", 300, 250, WIDTH, HEIGHT, 0);
 	// t->renderer = SDL_CreateRenderer(t->window, -1,
 	// 								 SDL_RENDERER_ACCELERATED);
 	// SDL_RenderSetLogicalSize(t->renderer, WIDTH, HEIGHT);
