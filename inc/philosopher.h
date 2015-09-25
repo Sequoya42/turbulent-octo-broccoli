@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/25 22:10:58 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/25 22:51:04 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,16 @@
 # define THINK_T	5
 # define TIMEOUT	10000
 
-typedef struct          s_surface
-{
-    SDL_Surface         *surf;
-    int                 w;
-    int                 h;
-}                       t_surface;
-
 typedef struct		s_sdl
 {
-	t_surface		*phil;
-	t_surface		*tabl;
-	t_surface		*stick;
 	SDL_Surface		*surf;
 	SDL_Window		*window;
-	SDL_Renderer	*renderer;
 	SDL_Event		event;
-    SDL_Texture		*screen;
     const Uint8		*keystate;
-	Uint32			*p;
+   	SDL_Surface		*phil;
+	SDL_Surface		*tabl;
+	SDL_Surface		*stick;
+
 }					t_sdl;
 
 typedef struct 		s_prs
