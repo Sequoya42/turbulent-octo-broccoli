@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/25 22:51:30 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/25 23:02:09 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int			ft_init(t_sdl *t)
 {
 	SDL_Rect	pos;
 
-	pos.x = 100;
-	pos.y = 100;
+	pos.x = 200;
+	pos.y = 200;
 	srand(time(NULL));
 	if ((SDL_Init(SDL_INIT_VIDEO)) == -1)
 		return (ft_error(NULL, NULL, "Cannot init SDL"));
@@ -38,9 +38,9 @@ int			ft_init(t_sdl *t)
 	// t->renderer = SDL_CreateRenderer(t->window, -1,
 	// 								 SDL_RENDERER_ACCELERATED);
 	// SDL_RenderSetLogicalSize(t->renderer, WIDTH, HEIGHT);
-	t->phil = SDL_LoadBMP("./bitmap/dali.bmp");
+	t->phil = SDL_LoadBMP("./bitmap/ntz.bmp");
 	t->surf = SDL_GetWindowSurface(t->window);
-	SDL_BlitSurface(t->phil, NULL, t->surf, NULL);
+	SDL_BlitSurface(t->phil, NULL, t->surf, &pos);
 	SDL_UpdateWindowSurface(t->window);
 	return (0);
 }
