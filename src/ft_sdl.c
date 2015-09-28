@@ -6,78 +6,41 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 13:24:45 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 15:49:18 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void        key_events(t_sdl *t)
+t_env				*init_env(void)
 {
-	if (t->event.type == SDL_KEYDOWN)
-    {
-        if (KEY == 27)
-        {
-            SDL_DestroyWindow(t->window);
-            SDL_Quit();
-            exit(1);
-        }
-    }
+	t_env			*e;
+
+	e = malloc(sizeof(t_env) * 1);
+	e->mlx = mlx_init();
+	e->img = mlx_new_image(e->mlx,WIDTH, HEIGHT);
+	e->win = mlx_new_window(e->mlx,WIDTH, HEIGHT, "Fractol");
+	e->d = mlx_get_data_addr(e->img, &e->bpp, &e->line_size,
+&e->endian);
+	return (e);
 }
 
-void		round_philo(t_sdl *t)
+int			key_hook(int keycode, t_env *e)
 {
-	SDL_Rect	pos;
-
-	pos.x = 100;
-	pos.y = 100;
-	int i = 0;
-	while (i < PHILO)
-	{
-		SDL_BlitSurface(t->phil, NULL, t->surf, &pos);
-		if (pos.x < WIDTH - (t->phil->w + t->phil->w))
-			pos.x += t->phil->w + t->phil->w;
-		else
-		{
-			pos.x = 300;
-			pos.y += t->phil->h + t->phil->h;
-		}
-		i++;
-	}
-}
-
-int			ft_init_sdl(t_sdl *t)
-{
-	srand(time(NULL));
-	if ((SDL_Init(SDL_INIT_VIDEO)) == -1)
-		return (ft_error(NULL, NULL, "Cannot init SDL"));
-	t->window = SDL_CreateWindow
-		("Philo", 300, 250, WIDTH, HEIGHT, 0);
-	t->phil = SDL_LoadBMP("./bitmap/ntz.bmp");
-	t->stick = SDL_LoadBMP("./bitmap/b3.bmp");
-	t->surf = SDL_GetWindowSurface(t->window);
-	SDL_Rect pt;
-	pt.x = 520;
-	pt.y = 150;
-	SDL_BlitSurface(t->stick, NULL, t->surf, &pt);
-	round_philo(t);
+	mlx_clear_window(e->mlx, e->win);
+	if (keycode == MK_ESC)
+		exit(0);
 	return (0);
 }
-	
-void		running(t_sdl *t)
-{
-	unsigned int ti;
-	unsigned int dif;
 
-	t->keystate = SDL_GetKeyboardState(NULL);
-	while (1)
-	{
-		ti = SDL_GetTicks();
-		while (SDL_PollEvent(&t->event))
-            key_events(t);
-		dif = (SDL_GetTicks() - ti);
-		if (dif < 20)
-			SDL_Delay(20 - dif);
-		SDL_UpdateWindowSurface(t->window);
-	}
+void			ft_mlx_loop(t_env *e)
+{
+	mlx_key_hook(e->win, key_hook, e);
+	int w = 1600;
+	int h = 1000;
+	e->img2 = mlx_xpm_file_to_image(e->mlx, "./bitmap/xp.xpm",  &w, &h);
+	mlx_put_image_to_window(e->mlx, e->win, e->img2, 0, 0);
+	mlx_loop(e->mlx);
+	mlx_destroy_window(e->mlx, e->win);
+
 }

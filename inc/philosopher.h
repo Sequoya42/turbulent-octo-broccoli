@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 13:18:58 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 15:22:28 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "SDL2/SDL.h"
+#include <mlx.h>
 #include "libft.h"
 
 # define WIDTH 	1600
 # define HEIGHT	1000
-# define KEY 	t->event.key.keysym.sym
+# define MK_ESC	53
 
 # define PHILO		7
 
@@ -36,19 +36,17 @@
 # define THINK_T	5
 # define TIMEOUT	10000
 
-
-typedef struct		s_sdl
+typedef struct	s_env
 {
-	SDL_Surface		*surf;
-	SDL_Window		*window;
-	SDL_Event		event;
-    const Uint8		*keystate;
-   	SDL_Surface		*phil;
-	SDL_Surface		*tabl;
-	SDL_Surface		*stick;
-	SDL_Rect		pt[PHILO];
-
-}					t_sdl;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	void		*img2;
+	char		*d;
+	int			bpp;
+	int			endian;
+	int			line_size;
+}				t_env;
 
 typedef struct 		s_prs
 {
@@ -59,10 +57,10 @@ typedef struct 		s_prs
 }					t_prs;
 
 
-void				running(t_sdl *t);
-int					ft_init_sdl(t_sdl *t);
-void				create_new_renderer(t_sdl *t);
-void				key_events(t_sdl *t);
+t_env				*init_env(void);
+int					key_hook(int keycode, t_env *e);
+void				ft_mlx_loop(t_env *e);
+
 
 
 void			*ft_alg(void *a);

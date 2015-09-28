@@ -31,14 +31,6 @@ SRC_NAME =		philosopher.c\
 				thread.c\
 				ft_sdl.c\
 
-SDL_PATH = 		./SDL2-2.0.3/
-
-LIBSDL_PATH_ROOT = 	./libSDL2/
-
-LIBSDL_PATH = ./libSDL2/lib/
-
-LIBSDL =		libSDL2.a
-
 OBJ_NAME =		$(SRC_NAME:.c=.o)
 
 LIBFT_NAME =	libft.a
@@ -53,43 +45,26 @@ LIBFT =			$(addprefix $(LIBFT_PATH),$(LIBFT_NAME))
 
 INC =			$(addprefix $(INC_PATH),$(INC_NAME))
 
-INCSDL = 		$(LIBSDL_PATH_ROOT)include/
-
 INCLIBFT = 		$(LIBFT_PATH)inc
 
-SDLBIN = 		$(addprefix $(LIBSDL_PATH),$(LIBSDL))
-
-LIBSDL_FLAG = 	-L$(LIBSDL_PATH) -lSDL2
+LIBSDL_FLAG = 	 -lmlx -framework OpenGL -framework Appkit
 
 LIBFT_FLAG = 	-L$(LIBFT_PATH) -lft
 
-SDL_CURL = 		`curl https://www.libsdl.org/release/SDL2-2.0.3.zip -o sdl2.zip` 
-
-all:			libft sdl $(NAME) 
+all:			libft $(NAME) 
 
 $(NAME):		$(OBJ)
 				@$(CC) $(LIBFT_FLAG) $(LIBSDL_FLAG) -o $@ $^
-				@echo "Philosopher ready to think"
+				@echo "Fractol initialised"
 
 $(OBJ_PATH)%.o:	$(SRC_PATH)%.c $(INC)
 				@mkdir -p $(OBJ_PATH)
-				@$(CC) $(CFLAG) -I$(INC_PATH) -I$(INCLIBFT) -I $(INCSDL) -o $@ -c $<
+				@$(CC) $(CFLAG) -I$(INC_PATH) -I$(INCLIBFT) -o $@ -c $<
 
 libft:			$(LIBFT)
 
 $(LIBFT):		$(LIBFT_PATH)
 				@make -C $(LIBFT_PATH)
-
-sdl:			$(SDLBIN)
-
-$(SDLBIN): 		
-				$(SDL_CURL)
-				unzip sdl2.zip
-				rm sdl2.zip
-				mkdir -p $(LIBSDL_PATH_ROOT)
-				cd $(SDL_PATH) &&  ./configure --prefix=$(PWD)/$(LIBSDL_PATH_ROOT)
-				make -C $(SDL_PATH)
-				make install -C $(SDL_PATH)
 
 clean:
 				@make -C $(LIBFT_PATH) clean
@@ -99,10 +74,5 @@ fclean:
 				@rm -f $(OBJ)
 				@make -C $(LIBFT_PATH) fclean
 				@rm -f $(NAME)
-
-sdlclean:				
-				rm -rf $(LIBSDL_PATH_ROOT)
-				rm -rf $(SDL_PATH)
-
 
 re: 			fclean all
