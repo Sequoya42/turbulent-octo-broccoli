@@ -30,7 +30,6 @@ INC_PATH =		./inc/
 SRC_NAME =		philosopher.c\
 				thread.c\
 				ft_sdl.c\
-				load_bmp.c\
 
 SDL_PATH = 		./SDL2-2.0.3/
 
@@ -99,8 +98,11 @@ clean:
 fclean:			
 				@rm -f $(OBJ)
 				@make -C $(LIBFT_PATH) fclean
+				@rm -f $(NAME)
+
+sdlclean:				
 				rm -rf $(LIBSDL_PATH_ROOT)
 				rm -rf $(SDL_PATH)
-				@rm -f $(NAME)
+
 
 re: 			fclean all
