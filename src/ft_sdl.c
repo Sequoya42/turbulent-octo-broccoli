@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 15:49:18 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 16:45:10 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ int			key_hook(int keycode, t_env *e)
 void			ft_mlx_loop(t_env *e)
 {
 	mlx_key_hook(e->win, key_hook, e);
-	int w = 1600;
-	int h = 1000;
-	e->img2 = mlx_xpm_file_to_image(e->mlx, "./bitmap/xp.xpm",  &w, &h);
-	mlx_put_image_to_window(e->mlx, e->win, e->img2, 0, 0);
-	mlx_loop(e->mlx);
+	int w = 0;
+	int h = 0;
+	e->img2 = mlx_xpm_file_to_image(e->mlx, "./bitmap/aw.xpm",  &h, &w);
+	mlx_put_image_to_window(e->mlx, e->win, e->img2, 100, 0);
+	e->img2 = mlx_xpm_file_to_image(e->mlx, "./bitmap/nietz.xpm",  &h, &w);
+	mlx_put_image_to_window(e->mlx, e->win, e->img2, 500, 0);
+		mlx_loop(e->mlx);
 	mlx_destroy_window(e->mlx, e->win);
 
 }

@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 15:22:28 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 16:43:35 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_env
 	void		*win;
 	void		*img;
 	void		*img2;
+	void		*img3;
 	char		*d;
 	int			bpp;
 	int			endian;
