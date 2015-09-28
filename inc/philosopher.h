@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 16:43:35 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 17:37:11 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include <mlx.h>
 #include "libft.h"
 
-# define WIDTH 	1600
+# define WIDTH 	1700
 # define HEIGHT	1000
 # define MK_ESC	53
 
@@ -38,6 +38,7 @@
 
 typedef struct	s_env
 {
+	char		*tab[PHILO];
 	void		*mlx;
 	void		*win;
 	void		*img;
