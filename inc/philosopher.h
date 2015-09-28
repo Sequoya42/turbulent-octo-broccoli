@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 17:37:11 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 17:39:57 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 typedef struct	s_env
 {
 	char		*tab[PHILO];
+	char		*name[PHILO];
 	void		*mlx;
 	void		*win;
 	void		*img;

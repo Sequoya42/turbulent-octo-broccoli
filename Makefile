@@ -55,7 +55,7 @@ all:			libft $(NAME)
 
 $(NAME):		$(OBJ)
 				@$(CC) $(LIBFT_FLAG) $(LIBSDL_FLAG) -o $@ $^
-				@echo "Fractol initialised"
+				@echo "Philosophers ready to think !"
 
 $(OBJ_PATH)%.o:	$(SRC_PATH)%.c $(INC)
 				@mkdir -p $(OBJ_PATH)
