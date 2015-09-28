@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 17:39:57 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 17:57:24 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 #include <mlx.h>
 #include "libft.h"
 
+# define REST "At rest"
+# define EAT "Eating !"
+# define THINK "Thinking about.."
+
+# define MBLUE	0X6CA6CD
+# define MRED	0XCD3333
+# define MYEL	0XFFB90F
 # define WIDTH 	1700
 # define HEIGHT	1000
 # define MK_ESC	53
@@ -40,6 +47,8 @@ typedef struct	s_env
 {
 	char		*tab[PHILO];
 	char		*name[PHILO];
+	char		*state[PHILO];
+	int			hp[PHILO];
 	void		*mlx;
 	void		*win;
 	void		*img;
@@ -64,6 +73,8 @@ t_env				*init_env(void);
 int					key_hook(int keycode, t_env *e);
 void				ft_mlx_loop(t_env *e);
 
+
+void			ft_put_philo(t_env *e);
 
 
 void			*ft_alg(void *a);

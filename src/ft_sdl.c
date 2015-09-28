@@ -6,22 +6,23 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 17:41:10 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/28 17:57:33 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-t_env				*init_env(void)
+void				get_name(t_env *e)
 {
-	t_env			*e;
+	int				i;
 
-	e = malloc(sizeof(t_env) * 1);
-	e->mlx = mlx_init();
-	e->img = mlx_new_image(e->mlx,WIDTH, HEIGHT);
-	e->win = mlx_new_window(e->mlx,WIDTH, HEIGHT, "Fractol");
-	e->d = mlx_get_data_addr(e->img, &e->bpp, &e->line_size,
-&e->endian);
+	i = -1;
+	while (++i < PHILO)
+	{
+		e->state[i] = REST;
+		e->hp[i] = 10;
+	}
+
 	e->tab[0] = "./bitmap/aw.xpm";
 	e->tab[1] = "./bitmap/buddha.xpm";
 	e->tab[2] = "./bitmap/dio.xpm";
@@ -36,7 +37,19 @@ t_env				*init_env(void)
 	e->name[4] = "Lao-Tseu";
 	e->name[5] = "Nietsche";
 	e->name[6] = "Schopenhauer";
+}
 
+t_env				*init_env(void)
+{
+	t_env			*e;
+
+	e = malloc(sizeof(t_env) * 1);
+	e->mlx = mlx_init();
+	e->img = mlx_new_image(e->mlx,WIDTH, HEIGHT);
+	e->win = mlx_new_window(e->mlx,WIDTH, HEIGHT, "Fractol");
+	e->d = mlx_get_data_addr(e->img, &e->bpp, &e->line_size,
+&e->endian);
+	get_name(e);
 	return (e);
 }
 
@@ -45,6 +58,7 @@ int			key_hook(int keycode, t_env *e)
 	mlx_clear_window(e->mlx, e->win);
 	if (keycode == MK_ESC)
 		exit(0);
+	ft_put_philo(e);
 	return (0);
 }
 
@@ -61,9 +75,11 @@ void			ft_put_philo(t_env *e)
 	wh = 0;
 	while (d < PHILO)
 	{
+		mlx_string_put(e->mlx, e->win, x + 10, y - 50, MYEL, e->state[d]);
 		e->img2 = mlx_xpm_file_to_image(e->mlx, e->tab[d],  &wh, &wh);
 		mlx_put_image_to_window(e->mlx, e->win, e->img2, x, y);
-		mlx_string_put(e->mlx, e->win, x + 10, y + 210, 0xFFFFFF, e->name[d]);
+		mlx_string_put(e->mlx, e->win, x + 10, y + 210, MBLUE, e->name[d]);
+		mlx_string_put(e->mlx, e->win, x + 10, y + 260, MRED, ft_itoa(e->hp[d]));
 		d++;
 		x+= 220;
 	}
@@ -71,9 +87,8 @@ void			ft_put_philo(t_env *e)
 
 void			ft_mlx_loop(t_env *e)
 {
-	mlx_key_hook(e->win, key_hook, e);
 	ft_put_philo(e);
-
+	mlx_key_hook(e->win, key_hook, e);
 	mlx_loop(e->mlx);
 	mlx_destroy_window(e->mlx, e->win);
 }
