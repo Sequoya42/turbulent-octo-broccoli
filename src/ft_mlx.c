@@ -1,63 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sdl.c                                           :+:      :+:    :+:   */
+/*   ft_mlx.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/28 17:57:33 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/29 20:08:56 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void				get_name(t_env *e)
+void		ft_destroy_mutex(t_env *e)
 {
-	int				i;
-
-	i = -1;
-	while (++i < PHILO)
+	e->id = -1;
+	while (++e->id < PHILO)
 	{
-		e->state[i] = REST;
-		e->hp[i] = 10;
+		pthread_mutex_destroy(&e->lock[e->id]);
 	}
-
-	e->tab[0] = "./bitmap/aw.xpm";
-	e->tab[1] = "./bitmap/buddha.xpm";
-	e->tab[2] = "./bitmap/dio.xpm";
-	e->tab[3] = "./bitmap/krgd.xpm";
-	e->tab[4] = "./bitmap/laotseu.xpm";
-	e->tab[5] = "./bitmap/nietz.xpm";
-	e->tab[6] = "./bitmap/scpn.xpm";
-	e->name[0] = "Alan Watts";
-	e->name[1] = "Buddha";
-	e->name[2] = "Diogenes";
-	e->name[3] = "Kierkegaard";
-	e->name[4] = "Lao-Tseu";
-	e->name[5] = "Nietsche";
-	e->name[6] = "Schopenhauer";
 }
 
-t_env				*init_env(void)
+void		ft_quit(t_env *e)
 {
-	t_env			*e;
+	ft_destroy_mutex(e);
+	mlx_destroy_window(e->mlx, e->win);
+	exit(0);
+}
 
-	e = malloc(sizeof(t_env) * 1);
-	e->mlx = mlx_init();
-	e->img = mlx_new_image(e->mlx,WIDTH, HEIGHT);
-	e->win = mlx_new_window(e->mlx,WIDTH, HEIGHT, "Fractol");
-	e->d = mlx_get_data_addr(e->img, &e->bpp, &e->line_size,
-&e->endian);
-	get_name(e);
-	return (e);
+int		loop_hook(t_env *e)
+{
+	int		t;
+	char	*s;
+
+	t = time(NULL);
+	s = ft_strdup("Now, it is time... To DAAAAAAAANCE ! ! !\n");
+	if ((t - e->tm) == TIMEOUT)
+	{
+		// ft_destroy_mutex(e);
+		ft_putstr(s);
+		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT - 100 ,MRED, s);
+		ft_sleep(1);
+	}
+	return (e->tm);
+
 }
 
 int			key_hook(int keycode, t_env *e)
 {
 	mlx_clear_window(e->mlx, e->win);
 	if (keycode == MK_ESC)
-		exit(0);
+		ft_quit(e);
 	ft_put_philo(e);
 	return (0);
 }
@@ -87,8 +80,8 @@ void			ft_put_philo(t_env *e)
 
 void			ft_mlx_loop(t_env *e)
 {
-	ft_put_philo(e);
-	mlx_key_hook(e->win, key_hook, e);
-	mlx_loop(e->mlx);
-	mlx_destroy_window(e->mlx, e->win);
+		ft_put_philo(e);
+		mlx_key_hook(e->win, key_hook, e);
+		mlx_loop_hook(e->mlx, loop_hook, e);
+		mlx_loop(e->mlx);
 }

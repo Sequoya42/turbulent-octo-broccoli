@@ -29,7 +29,9 @@ INC_PATH =		./inc/
 
 SRC_NAME =		philosopher.c\
 				thread.c\
-				ft_sdl.c\
+				ft_mlx.c\
+				ft_init.c\
+				main.c\
 
 OBJ_NAME =		$(SRC_NAME:.c=.o)
 

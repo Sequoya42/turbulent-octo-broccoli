@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosopher.c                                      :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/09/29 14:06:20 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/29 19:16:33 by rbaum            ###   ########.fr       */
+/*   Created: 2015/09/25 20:30:56 by rbaum             #+#    #+#             */
+/*   Updated: 2015/09/29 19:56:01 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void		*ft_think(void *p)
+void			ft_sleep(int n)
 {
-	ft_sleep(THINK_T);
-	return (p);
+	int			i;
+
+	i = 0;
+	while (i < n)
+	{
+		usleep(1000000);
+		i++;
+	}
 }
 
-
-void		*ft_eat(void *p)
+int				main(void)
 {
-	ft_sleep(EAT_T);
-	return (p);
-}
+	t_env		*e;
 
-void		*ft_rest(void *p)
-{
-	ft_sleep(REST_T);
-	return (p);
+	e = init_env();
+	e->tm = time(NULL);
+	// ft_init_thread(e);
+	// ft_join_thread(e);
+	ft_mlx_loop(e);
+	return (0);
 }
