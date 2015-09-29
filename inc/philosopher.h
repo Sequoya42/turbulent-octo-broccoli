@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/29 20:05:13 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/29 20:53:27 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@
 # define EAT_T		5
 # define REST_T		10
 # define THINK_T	5
-# define TIMEOUT	2
+# define TIMEOUT	17
 
 typedef struct			s_env
 {
 	pthread_t			th[PHILO];
-	pthread_mutex_t		lock[PHILO];
+	pthread_mutex_t		lock[PHILO]; // baguette
 	char				*tab[PHILO];
 	char				*name[PHILO];
 	char				*state[PHILO];
@@ -72,11 +72,13 @@ void				get_name(t_env *e);
 int					key_hook(int keycode, t_env *e);
 void				ft_mlx_loop(t_env *e);
 
-
 void			ft_put_philo(t_env *e);
 
+void			*ft_alg(void *p);
+void			*ft_think(void *p);
+void			*ft_think(void *p);
+void			*ft_rest(void *p);
 
-void			*ft_alg(void *a);
 void			ft_init_thread(t_env *e);
 void			ft_join_thread(t_env *e);
 void			ft_sleep(int n);

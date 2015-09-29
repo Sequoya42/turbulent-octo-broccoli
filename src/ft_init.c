@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:01:41 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/29 19:55:57 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/29 20:13:57 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void				get_name(t_env *e)
 	{
 		e->state[i] = REST;
 		e->hp[i] = MAX_LIFE;
-		// if (pthread_mutex_init(&e->lock[i], NULL) != 0)
-			// ft_exit("Failed to init mutex\n");
+		if (pthread_mutex_init(&e->lock[i], NULL) != 0)
+			ft_exit("Failed to init mutex\n");
 	}
 	e->tab[0] = ft_strdup("./bitmap/aw.xpm");
 	e->tab[1] = ft_strdup("./bitmap/buddha.xpm");

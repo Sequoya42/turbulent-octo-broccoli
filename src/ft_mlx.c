@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/29 20:08:56 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/29 21:01:06 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ int		loop_hook(t_env *e)
 	s = ft_strdup("Now, it is time... To DAAAAAAAANCE ! ! !\n");
 	if ((t - e->tm) == TIMEOUT)
 	{
-		// ft_destroy_mutex(e);
+		ft_destroy_mutex(e);
 		ft_putstr(s);
 		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT - 100 ,MRED, s);
 		ft_sleep(1);
+		e->tm = 0;
 	}
 	return (e->tm);
 
