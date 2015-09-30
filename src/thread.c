@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 20:32:28 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 16:18:44 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 16:44:36 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 void			ft_init_thread(t_env *e)
 {
 
-	while (e->id < PHILO)
+	while (e->id < PHILO - 1)
 	{
-		ft_putstr("In init \t\t");
-		ft_putnbrendl(e->id);
 	if (pthread_create(&e->th[e->id], NULL,ft_alg , e))
 			ft_exit("Unknown Failure\n");
-		pthread_join(e->th[e->id], NULL);
-		UNLOCK(&e->lock[e->id]);
+		// pthread_detach(e->th[e->id]);
 		e->id++;
 	}
 }

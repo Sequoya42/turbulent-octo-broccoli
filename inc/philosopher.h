@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 15:29:21 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 16:42:47 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@
 # define EAT_T		5
 # define REST_T		10
 # define THINK_T	5
-# define TIMEOUT	17
+# define TIMEOUT	4
 
 # define LOCK		pthread_mutex_lock
 # define UNLOCK		pthread_mutex_unlock
+# define TRY		pthread_mutex_trylock
 
 typedef struct			s_env
 {
