@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/29 21:01:06 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 21:14:18 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		ft_destroy_mutex(t_env *e)
 	e->id = -1;
 	while (++e->id < PHILO)
 	{
-		pthread_mutex_destroy(&e->lock[e->id]);
+			pthread_mutex_destroy(&e->lock[e->id]);
 	}
 }
 
@@ -28,21 +28,26 @@ void		ft_quit(t_env *e)
 	exit(0);
 }
 
-int		loop_hook(t_env *e)
+void	ft_pause(t_env *e)
 {
-	int		t;
-	char	*s;
+		char	*s;
 
-	t = time(NULL);
-	s = ft_strdup("Now, it is time... To DAAAAAAAANCE ! ! !\n");
-	if ((t - e->tm) == TIMEOUT)
-	{
+		s = ft_strdup("Now, it is time... To DAAAAAAAANCE ! ! !\n");
 		ft_destroy_mutex(e);
 		ft_putstr(s);
 		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT - 100 ,MRED, s);
 		ft_sleep(1);
 		e->tm = 0;
-	}
+}
+
+int		loop_hook(t_env *e)
+{
+	// int		t;
+
+	// t = time(NULL);
+	// if ((t - e->tm) == TIMEOUT)
+	// 	ft_pause(e);
+	ft_putstr("GLGLGLG\n");
 	return (e->tm);
 
 }
@@ -67,6 +72,8 @@ void			ft_put_philo(t_env *e)
 	y = 300;
 	d = 0;
 	wh = 0;
+	LOCK(&e->lc);
+	mlx_clear_window(e->mlx, e->win);
 	while (d < PHILO)
 	{
 		mlx_string_put(e->mlx, e->win, x + 10, y - 50, MYEL, e->state[d]);
@@ -77,12 +84,13 @@ void			ft_put_philo(t_env *e)
 		d++;
 		x+= 220;
 	}
+	UNLOCK(&e->lc);
 }
 
 void			ft_mlx_loop(t_env *e)
 {
 		ft_put_philo(e);
 		mlx_key_hook(e->win, key_hook, e);
-		mlx_loop_hook(e->mlx, loop_hook, e);
+		// mlx_loop_hook(e->mlx, loop_hook, e);
 		mlx_loop(e->mlx);
 }

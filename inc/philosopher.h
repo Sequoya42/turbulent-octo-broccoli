@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 16:42:47 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 21:37:00 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 # define PHILO		7
 
 # define MAX_LIFE	10
-# define EAT_T		5
-# define REST_T		10
-# define THINK_T	5
-# define TIMEOUT	4
+# define EAT_T		1
+# define REST_T		1
+# define THINK_T	1
+# define TIMEOUT	200
 
 # define LOCK		pthread_mutex_lock
 # define UNLOCK		pthread_mutex_unlock
@@ -52,11 +52,15 @@
 typedef struct			s_env
 {
 	pthread_t			th[PHILO];
+	pthread_mutex_t		lc;
+	char				*tab[PHILO + 1];
+	char				*name[PHILO + 1];
+	char				*state[PHILO + 1];
+	int					hp[PHILO + 1];
 	pthread_mutex_t		lock[PHILO]; // baguette
-	char				*tab[PHILO];
-	char				*name[PHILO];
-	char				*state[PHILO];
-	int					hp[PHILO];
+
+
+
 	void				*mlx;
 	void				*win;
 	void				*img;
@@ -77,14 +81,16 @@ int					key_hook(int keycode, t_env *e);
 void				ft_mlx_loop(t_env *e);
 
 void			ft_put_philo(t_env *e);
-
+void			print_life(t_env *e);
+int				continue_alg(t_env *e);
 void			*ft_alg(void *p);
-void			ft_think(t_env *e);
-void			ft_think(t_env *e);
-void			ft_rest(t_env *e);
+void			ft_think(t_env *e, int i);
+void			ft_eat(t_env *e, int i);
+void			ft_rest(t_env *e, int i);
 
 void			ft_init_thread(t_env *e);
 void			ft_join_thread(t_env *e);
 void			ft_sleep(int n);
+void			ft_pause(t_env *e);
 
 #endif
