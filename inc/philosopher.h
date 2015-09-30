@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/29 20:53:27 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 15:29:21 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@
 # define THINK_T	5
 # define TIMEOUT	17
 
+# define LOCK		pthread_mutex_lock
+# define UNLOCK		pthread_mutex_unlock
+
 typedef struct			s_env
 {
 	pthread_t			th[PHILO];
@@ -75,9 +78,9 @@ void				ft_mlx_loop(t_env *e);
 void			ft_put_philo(t_env *e);
 
 void			*ft_alg(void *p);
-void			*ft_think(void *p);
-void			*ft_think(void *p);
-void			*ft_rest(void *p);
+void			ft_think(t_env *e);
+void			ft_think(t_env *e);
+void			ft_rest(t_env *e);
 
 void			ft_init_thread(t_env *e);
 void			ft_join_thread(t_env *e);
