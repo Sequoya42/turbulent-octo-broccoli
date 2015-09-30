@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 21:37:00 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 21:55:25 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@
 # define PHILO		7
 
 # define MAX_LIFE	10
-# define EAT_T		1
-# define REST_T		1
-# define THINK_T	1
+# define EAT_T		2
+# define REST_T		2
+# define THINK_T	2
 # define TIMEOUT	200
 
 # define LOCK		pthread_mutex_lock
@@ -53,10 +53,10 @@ typedef struct			s_env
 {
 	pthread_t			th[PHILO];
 	pthread_mutex_t		lc;
+	int					hp[PHILO + 1];
 	char				*tab[PHILO + 1];
 	char				*name[PHILO + 1];
 	char				*state[PHILO + 1];
-	int					hp[PHILO + 1];
 	pthread_mutex_t		lock[PHILO]; // baguette
 
 

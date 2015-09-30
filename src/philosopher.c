@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:06:20 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 21:31:31 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/09/30 21:43:04 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int				continue_alg(t_env *e)
 	r = 1;
 	if ((t - e->tm) == TIMEOUT)
 		ft_pause(e);
-	// if (e->hp[e->id] < 1)
-	// {
-	// 	ft_putendl("DEAD DEAD DEAD\n");
-	// 	ft_sleep(2);
-	// 	r = 0;
-	// }
+	if (e->hp[e->id] < 1)
+	{
+		ft_putendl("DEAD DEAD DEAD\n");
+		ft_sleep(2);
+		r = 0;
+	}
 	UNLOCK(&e->lc);
 	return (r);
 }
@@ -40,7 +40,7 @@ void			*ft_alg(void *p)
 
 	e = (t_env *)p;
 	i = e->id;
-	ft_putstr(KGRN);
+	// ft_putstr(KGRN);
 	while (continue_alg(e))
 	{
 		print_life(e);
@@ -67,9 +67,10 @@ void			*ft_alg(void *p)
 
 void		ft_think(t_env *e, int i)
 {
-	ft_putstr(KMAG);
+	// ft_putstr(KMAG);
 	// ft_putstr("THINKING \n");
 	e->state[i] = ft_strdup(THINK);
+	// e->hp[i] -= 1;
 	ft_sleep(THINK_T);
 	UNLOCK(&e->lock[i]);
 }
@@ -77,7 +78,7 @@ void		ft_think(t_env *e, int i)
 
 void		ft_eat(t_env *e, int i)
 {
-	ft_putstr(KYEL);
+	// ft_putstr(KYEL);
 	// ft_putstr("EATING\n");
 	e->state[i] = ft_strdup(EAT);
 	ft_sleep(EAT_T);
@@ -88,7 +89,8 @@ void		ft_eat(t_env *e, int i)
 
 void		ft_rest(t_env *e, int i)
 {
-	ft_putstr(KRED);
+	// ft_putstr(KRED);
 	e->state[i] = ft_strdup(REST);
+	// e->hp[i] -= 1;
 	ft_sleep(REST_T);
 }
