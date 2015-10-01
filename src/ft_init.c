@@ -6,11 +6,33 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:01:41 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 21:55:59 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/01 17:19:56 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+static char const *g_img_tab[PHILO] = 
+{
+	"./bitmap/aw.xpm",
+	"./bitmap/buddha.xpm",
+	"./bitmap/dio.xpm",
+	"./bitmap/krgd.xpm",
+	"./bitmap/laotseu.xpm",
+	"./bitmap/nietz.xpm",
+	"./bitmap/scpn.xpm",
+};
+
+static char const *g_name_tab[PHILO] = 
+{
+	"Alan Watts",
+	"Buddha",
+	"Diogenes",
+	"Kierkegaard",
+	"Lao-Tseu",
+	"Nietsche",
+	"Schopenhauer",
+};
 
 void				get_name(t_env *e)
 {
@@ -19,30 +41,14 @@ void				get_name(t_env *e)
 	i = 0;
 	while (i < PHILO)
 	{
+		e->tab[i] = (char*)g_img_tab[i];
+		e->name[i] = (char*)g_name_tab[i];
 		e->state[i] = ft_strdup(REST);
 		e->hp[i] = MAX_LIFE;
 		if (pthread_mutex_init(&e->lock[i], NULL) != 0)
 			ft_exit("Failed to init mutex\n");
 		i++;
 	}
-	e->hp[i] = MAX_LIFE;
-	e->state[i] = NULL;
-	e->tab[0] = ft_strdup("./bitmap/aw.xpm");
-	e->tab[1] = ft_strdup("./bitmap/buddha.xpm");
-	e->tab[2] = ft_strdup("./bitmap/dio.xpm");
-	e->tab[3] = ft_strdup("./bitmap/krgd.xpm");
-	e->tab[4] = ft_strdup("./bitmap/laotseu.xpm");
-	e->tab[5] = ft_strdup("./bitmap/nietz.xpm");
-	e->tab[6] = ft_strdup("./bitmap/scpn.xpm");
-	e->tab[7] = NULL;
-	e->name[0] =ft_strdup( "Alan Watts");
-	e->name[1] =ft_strdup( "Buddha");
-	e->name[2] =ft_strdup( "Diogenes");
-	e->name[3] =ft_strdup( "Kierkegaard");
-	e->name[4] =ft_strdup( "Lao-Tseu");
-	e->name[5] =ft_strdup( "Nietsche");
-	e->name[6] =ft_strdup( "Schopenhauer");
-	e->name[7] = NULL;
 }
 
 t_env				*init_env(void)
@@ -51,7 +57,6 @@ t_env				*init_env(void)
 
 	e = malloc(sizeof(t_env) * 1);
 	pthread_mutex_init(&e->lc, NULL);
-	LOCK(&e->lc);
 	e->mlx = mlx_init();
 	e->img = mlx_new_image(e->mlx,WIDTH, HEIGHT);
 	e->win = mlx_new_window(e->mlx,WIDTH, HEIGHT, "Philosopher");
@@ -59,7 +64,6 @@ t_env				*init_env(void)
 &e->endian);
 	get_name(e);
 	e->id = 0;
-	UNLOCK(&e->lc);
 	return (e);
 }
 

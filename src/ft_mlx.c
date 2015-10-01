@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 21:55:06 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/01 17:34:32 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void		ft_destroy_mutex(t_env *e)
 {
-	e->id = -1;
-	while (++e->id < PHILO)
+	int i = 0;
+	while (i < PHILO)
 	{
-			pthread_mutex_destroy(&e->lock[e->id]);
+			pthread_mutex_destroy(&e->lock[i]);
+			i++;
 	}
 }
 
@@ -81,6 +82,7 @@ void			ft_put_philo(t_env *e)
 		mlx_put_image_to_window(e->mlx, e->win, e->img2, x, y);
 		mlx_string_put(e->mlx, e->win, x + 10, y + 210, MBLUE, e->name[d]);
 		mlx_string_put(e->mlx, e->win, x + 10, y + 260, MRED, ft_itoa(e->hp[d]));
+		mlx_string_put(e->mlx, e->win, x + 10, y + 280, MBLUE, ft_itoa(d));
 		d++;
 		x+= 220;
 	}

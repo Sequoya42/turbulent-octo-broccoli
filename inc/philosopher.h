@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/09/30 21:55:25 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/01 17:45:30 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@
 #include <pthread.h>
 #include <mlx.h>
 #include "libft.h"
+#include <errno.h>
 
 # define REST "At rest"
 # define EAT "Eating !"
 # define THINK "Thinking about.."
+# define NOPE "NOPE NOPE NOPE"
 
 # define MBLUE	0X6CA6CD
 # define MRED	0XCD3333
@@ -37,26 +39,35 @@
 
 # define MK_ESC	53
 
+# define NEXT(x)	((x + 1) % 7)
 # define PHILO		7
 
 # define MAX_LIFE	10
-# define EAT_T		2
-# define REST_T		2
-# define THINK_T	2
+# define EAT_T		1
+# define REST_T		1
+# define THINK_T	1
 # define TIMEOUT	200
 
-# define LOCK		pthread_mutex_lock
-# define UNLOCK		pthread_mutex_unlock
-# define TRY		pthread_mutex_trylock
+# define LOCK(x)		pthread_mutex_lock(x)
+# define UNLOCK(x)		pthread_mutex_unlock(x)
+# define TRY(x)			pthread_mutex_trylock(x)
+
+typedef struct			s_phil
+{
+	pthread_t			th;
+	int					hp;
+	int					id;
+}						t_phil;
 
 typedef struct			s_env
 {
+	t_phil				ph[PHILO];
 	pthread_t			th[PHILO];
 	pthread_mutex_t		lc;
-	int					hp[PHILO + 1];
-	char				*tab[PHILO + 1];
-	char				*name[PHILO + 1];
-	char				*state[PHILO + 1];
+	int					hp[PHILO];
+	char				*tab[PHILO];
+	char				*name[PHILO];
+	char				*state[PHILO];
 	pthread_mutex_t		lock[PHILO]; // baguette
 
 
