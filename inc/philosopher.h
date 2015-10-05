@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 19:56:06 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/05 20:25:47 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void			print_life(t_env *e);
 void			*ft_alg(void *p);
 void			ft_think(t_env *e, int l, int r, int i);
 void			ft_eat(t_env *e, int l, int r, int i);
-void			ft_rest(t_env *e, int i);
+void			ft_rest(t_env *e, int i, int ti);
 
 void			ft_init_thread(t_env *e);
 void			ft_join_thread(t_env *e);

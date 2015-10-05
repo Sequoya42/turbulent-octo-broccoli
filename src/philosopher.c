@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:06:20 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 20:22:38 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/05 20:27:31 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			*ft_alg(void *p)
 		else if (TRY(&e->lock[NI]) == 0)
 				ft_think(e, NI, FI, i);
 		else
-			ft_rest(e, i);
+			ft_rest(e, i, 0);
 	}
 	ft_putstr("Thread number\t");
 	ft_putnbrendl(i);
@@ -61,7 +61,7 @@ void		ft_think(t_env *e, int l, int r, int i)
 		if (!ft_strcmp(e->state[r], THINK) && TRY(&e->lock[r]) == EBUSY)
 		{
 			UNLOCK(&e->lock[l]);
-			return ft_rest(e, i);
+			return ft_rest(e, i, c);
 		}
 		ft_sleep(1, t);
 		if (e->roll == 3)
@@ -90,17 +90,17 @@ void		ft_eat(t_env *e, int l, int r, int i)
 	UNLOCK(&e->lock[l]);
 	UNLOCK(&e->lock[r]);
 	if (e->roll != 3)
-		ft_rest(e, i);
+		ft_rest(e, i, 0);
 }
 
-void		ft_rest(t_env *e, int i)
+void		ft_rest(t_env *e, int i, int ti)
 {
 	int		c;
 	int		t;
 
 	c = 0;
 	e->state[i] = ft_strdup(REST);
-	while (c < REST_T)
+	while (c < (REST_T - ti))
 	{
 		if (e->roll == 3)
 			break;
