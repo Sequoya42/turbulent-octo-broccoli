@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 20:25:47 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/05 20:43:46 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@
 # define NEXT(x)	((x + 1) % 7)
 # define PHILO		7
 
-# define MAX_LIFE	100
+# define MAX_LIFE	2
 # define EAT_T		4
 # define REST_T		2
 # define THINK_T	5	
-# define TIMEOUT	300
+# define TIMEOUT	200
 
 # define FI				(i % 2 ? l : r)
 # define NI				(i % 2 ? r : l)
@@ -100,6 +100,7 @@ void			ft_join_thread(t_env *e);
 void			ft_detach_thread(t_env *e);
 void			ft_sleep(int n, int t);
 void			ft_pause(t_env *e, int i);
+int				ft_is_dead(t_env *e);
 void			ft_destroy_mutex(t_env *e);
 
 

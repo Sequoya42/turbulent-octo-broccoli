@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 22:14:31 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 19:57:16 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/05 20:45:08 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void		ft_quit(t_env *e)
 void	ft_pause(t_env *e, int i)
 {
 		char	*s;
-		pthread_mutex_t test;
 
-		pthread_mutex_init(&test, NULL);
-		LOCK(&test);
 		e->roll = 3;
 		ft_put_philo(e);
 		if (i == 1)
@@ -45,22 +42,21 @@ void	ft_pause(t_env *e, int i)
 			s = ft_strdup("Someone died !");
 		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT - 100 ,MRED, s);
 		e->tm = 0;
-		ft_destroy_mutex(e);
-		UNLOCK(&test);
 }
 
 int		loop_hook(t_env *e)
 {
 	int	t;
-	static int c = 0;
 
 	t = time(NULL);
 	if (t - e->tm == TIMEOUT)
-		c = 1;
-	if (c == 0)
+		e->roll = 3;
+	if (e->roll != 3)
 		ft_put_philo(e);
-	else
+	else if (ft_is_dead(e) == 0)
 		ft_pause(e, 1);
+	else
+		ft_pause(e, 2);
 	return (e->tm);
 
 }

@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:06:20 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 20:27:31 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/05 20:46:18 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void		ft_think(t_env *e, int l, int r, int i)
 	while (c < THINK_T)
 	{
 		t = time(NULL);
-		if (e->hp[i] == 0)
-			ft_pause(e, 2);
+		if (ft_is_dead(e) != 0)
+			e->roll = 3;
 		e->hp[i] -= 1;
 		if (TRY(&e->lock[r]) == 0)
 			return (ft_eat(e, l, r, i));
@@ -105,8 +105,8 @@ void		ft_rest(t_env *e, int i, int ti)
 		if (e->roll == 3)
 			break;
 		t = time(NULL);
-		if (e->hp[i] == 0)
-			ft_pause(e, 2);
+		if (ft_is_dead(e) != 0)
+			e->roll = 3;
 		e->hp[i] -= 1;
 		ft_sleep(1, t);
 		c++;
