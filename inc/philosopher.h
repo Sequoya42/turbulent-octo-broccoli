@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 20:43:46 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/06 13:55:01 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@
 # define NEXT(x)	((x + 1) % 7)
 # define PHILO		7
 
-# define MAX_LIFE	2
-# define EAT_T		4
+# define MAX_LIFE	10
+# define EAT_T		3
 # define REST_T		2
-# define THINK_T	5	
+# define THINK_T	3	
 # define TIMEOUT	200
 
 # define FI				(i % 2 ? l : r)

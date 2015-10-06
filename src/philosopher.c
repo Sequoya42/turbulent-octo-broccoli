@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:06:20 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 20:46:18 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/06 13:57:16 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void			*ft_alg(void *p)
 	r = NEXT(i);
 	while (e->roll != 3)
 	{
+		usleep(i * 100000);
 		if (TRY(&e->lock[FI]) == 0)
 		{
 			if (TRY(&e->lock[NI]) == 0)
@@ -37,8 +38,6 @@ void			*ft_alg(void *p)
 		else
 			ft_rest(e, i, 0);
 	}
-	ft_putstr("Thread number\t");
-	ft_putnbrendl(i);
 	return (p);
 }
 
@@ -46,9 +45,10 @@ void		ft_think(t_env *e, int l, int r, int i)
 {
 	int		c;
 	int		t;
+	int		v;
 
-	c = r;
 	c = 0;
+	v = 0;
 	e->state[i] = ft_strdup(THINK);
 	while (c < THINK_T)
 	{
@@ -57,13 +57,30 @@ void		ft_think(t_env *e, int l, int r, int i)
 			e->roll = 3;
 		e->hp[i] -= 1;
 		if (TRY(&e->lock[r]) == 0)
+		{
+			ft_putstr("LOCK SECOND\t");
+			ft_putnbrn(r);
+			ft_putnbrendl(i);
 			return (ft_eat(e, l, r, i));
+		}
 		if (!ft_strcmp(e->state[r], THINK) && TRY(&e->lock[r]) == EBUSY)
 		{
 			UNLOCK(&e->lock[l]);
-			return ft_rest(e, i, c);
+			v = 1;
 		}
 		ft_sleep(1, t);
+		if (v == 1)
+		{
+			if (TRY(&e->lock[l]) != 0)
+			{
+				ft_putstr("HOHO lost \t");
+			ft_putnbrn(l);
+			ft_putnbrendl(i);
+
+				return ft_rest(e, i, c);
+			}
+
+		}
 		if (e->roll == 3)
 			break;
 		c++;
