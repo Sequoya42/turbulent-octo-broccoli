@@ -32,6 +32,7 @@ SRC_NAME =		philosopher.c\
 				ft_mlx.c\
 				ft_init.c\
 				main.c\
+				sub_phil.c\
 
 OBJ_NAME =		$(SRC_NAME:.c=.o)
 

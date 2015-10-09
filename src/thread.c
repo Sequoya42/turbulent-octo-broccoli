@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 20:32:28 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 16:11:36 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/09 00:55:45 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,53 @@ void			ft_init_thread(t_env *e)
 	e->id = 0;
 	while(1)
 	{
-		if (pthread_create(&e->th[e->id], NULL,ft_alg , e))
-			ft_exit("Failed creating thread\n");
-		usleep(100000);
+		if (pthread_create(&e->th[e->id], NULL, ft_alg , e))
+			ft_exit("Failed creating thread, please try again\n");
+		usleep(1000);
+		if (pthread_detach(e->th[e->id]))
+			ft_exit("Failed detaching thread");
 		if (e->id == PHILO - 1)
 			break;
 		e->id++;
 	}
 }
 
-void			ft_join_thread(t_env *e)
+void	ft_pause(t_env *e, int i)
 {
-	int			i;
+		char	*s;
 
-	i = -1;
-	while (++i < PHILO)
-		if (pthread_join(e->th[i], NULL))
-			ft_exit("Unknown Failure\n");
-	ft_putstr("Joined succesfuulyyyy\n");
+		e->roll = 3;
+		ft_put_philo(e);
+		if (i == 1)
+			s = ft_strdup("Now, it is time... To DAAAAAAAANCE ! ! !\n");
+		else
+			s = ft_strdup("Someone died !");
+		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT / 2 + 100 ,MRED, s);
+		e->tm = 0;
+		ft_destroy_mutex(e);
 }
 
-void		ft_detach_thread(t_env *e)
+void		ft_destroy_mutex(t_env *e)
+{
+	e->id = 0;
+	while (e->id < PHILO)
+	{
+		usleep(500);
+		pthread_mutex_destroy(&e->lock[e->id]);
+		e->id++;
+	}
+}
+
+
+int				ft_is_dead(t_env *e)
 {
 	int			i;
 
 	i = -1;
 	while (++i < PHILO)
-		if (pthread_detach(e->th[i]))
-			ft_exit("Unknown Failure\n");
-
+	{
+		if (e->hp[i] <= 0)
+			return (1);
+	}
+	return (0);
 }

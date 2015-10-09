@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/24 16:03:36 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/06 13:55:01 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/09 00:55:36 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 #include "libft.h"
 #include <errno.h>
 
-# define REST "At rest"
-# define EAT "Eating !"
-# define THINK "Thinking about.."
+# define REST	"At rest"
+# define EAT	"Eating !"
+# define THINK	"Thinking about.."
 
 # define MBLUE	0X6CA6CD
 # define MRED	0XCD3333
@@ -35,39 +35,43 @@
 # define MGRN	0X287070
 # define MPURP	0X9f4b69
 
-# define WIDTH 	1700
-# define HEIGHT	700
+# define WIDTH 	(e->width)
+# define HEIGHT	(e->height)
 
 # define MK_ESC	53
 # define MK_P	35
 # define MK_R	15
 
 # define NEXT(x)	((x + 1) % 7)
+# define PREV(x) 	((x == 0) ? 6 : (x - 1) % 7)
 # define PHILO		7
 
-# define MAX_LIFE	10
-# define EAT_T		3
-# define REST_T		2
-# define THINK_T	3	
-# define TIMEOUT	200
+# define MAX_LIFE	5
+# define EAT_T		1
+# define REST_T		1
+# define THINK_T	1
+# define TIMEOUT	60
 
-# define FI				(i % 2 ? l : r)
-# define NI				(i % 2 ? r : l)
+# define TT				(10000)
+# define TS				(100)
+# define FI				(i % 2 ? i : NEXT(i))
+# define NI				(i % 2 ? NEXT(i) : i)
 
 # define LOCK(x)		pthread_mutex_lock(x)
 # define UNLOCK(x)		pthread_mutex_unlock(x)
 # define TRY(x)			pthread_mutex_trylock(x)
 
-
+# define TX(d)			(100 + ((d % 7) * 220))
 
 typedef struct			s_env
 {
 	pthread_t			th[PHILO];
-	int					hp[PHILO + 1];
-	char				*tab[PHILO + 1];
-	char				*name[PHILO + 1];
-	char				*state[PHILO + 1];
-	pthread_mutex_t		lock[PHILO + 1]; // baguette
+	int					hp[PHILO];
+	int					i_state[PHILO];
+	char				*tab[PHILO];
+	char				*name[PHILO];
+	char				*state[PHILO];
+	pthread_mutex_t		lock[PHILO];
 	void				*mlx;
 	void				*win;
 	void				*img;
@@ -80,6 +84,8 @@ typedef struct			s_env
 	int					id;
 	int					tm;
 	int					roll;
+	int					height;
+	int					width;
 }						t_env;
 
 
@@ -91,17 +97,19 @@ void			ft_mlx_loop(t_env *e);
 void			ft_put_philo(t_env *e);
 void			print_life(t_env *e);
 void			*ft_alg(void *p);
-void			ft_think(t_env *e, int l, int r, int i);
+void			ft_think(t_env *e, int l, int i);
 void			ft_eat(t_env *e, int l, int r, int i);
 void			ft_rest(t_env *e, int i, int ti);
 
 void			ft_init_thread(t_env *e);
-void			ft_join_thread(t_env *e);
-void			ft_detach_thread(t_env *e);
 void			ft_sleep(int n, int t);
 void			ft_pause(t_env *e, int i);
 int				ft_is_dead(t_env *e);
 void			ft_destroy_mutex(t_env *e);
+
+int				ft_choice(int i, int r);
+void			ft_try(t_env *e, int l, int r, int i);
+void			try_both(t_env *e, int i);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/25 20:30:56 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/05 20:43:52 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/09 00:56:42 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,14 @@ void			ft_sleep(int n, int t)
 	}
 }
 
-int				ft_is_dead(t_env *e)
-{
-	int			i;
-
-	i = -1;
-	while (++i < PHILO)
-	{
-		if (e->hp[i] <= 0)
-			return (1);
-	}
-	return (0);
-}
-int				main(void)
+int				main(int ac, char **av)
 {
 	t_env		*e;
-
+	if (ac != 1 || !av[0])
+		ft_exit("No need for argument\n");
 	e = init_env();
 	e->tm = time(NULL);
 	ft_init_thread(e);
 	ft_mlx_loop(e);
-	// ft_join_thread(e);
 	return (0);
 }

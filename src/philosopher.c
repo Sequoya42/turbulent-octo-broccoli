@@ -6,7 +6,7 @@
 /*   By: rbaum <rbaum@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 14:06:20 by rbaum             #+#    #+#             */
-/*   Updated: 2015/10/06 13:57:16 by rbaum            ###   ########.fr       */
+/*   Updated: 2015/10/09 00:44:56 by rbaum            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,76 +16,76 @@ void			*ft_alg(void *p)
 {
 	t_env		*e;
 	int			i;
-	int 		l;
-	int			r;
 
 	e = (t_env *)p;
 	i = e->id;
-	l = i;
-	r = NEXT(i);
 	while (e->roll != 3)
 	{
-		usleep(i * 100000);
 		if (TRY(&e->lock[FI]) == 0)
-		{
-			if (TRY(&e->lock[NI]) == 0)
-				ft_eat(e, FI, NI, i);
-			else
-				ft_think(e, FI, NI, i);
-		}
+			ft_try(e, FI, NI, i);
 		else if (TRY(&e->lock[NI]) == 0)
-				ft_think(e, NI, FI, i);
+			ft_try(e, NI, FI, i);
+		else if (!ft_strcmp(e->state[NEXT(i)], THINK) && !ft_strcmp(e->state[PREV(i)], THINK))
+			try_both(e, i);
 		else
 			ft_rest(e, i, 0);
 	}
 	return (p);
 }
 
-void		ft_think(t_env *e, int l, int r, int i)
+
+void		ft_think(t_env *e, int l, int i)
 {
 	int		c;
-	int		t;
-	int		v;
+	int		rt;
 
 	c = 0;
-	v = 0;
+	rt = THINK_T * TT;
+	e->i_state[i] = 0;
 	e->state[i] = ft_strdup(THINK);
-	while (c < THINK_T)
+	while (c < rt)
 	{
-		t = time(NULL);
 		if (ft_is_dead(e) != 0)
 			e->roll = 3;
-		e->hp[i] -= 1;
-		if (TRY(&e->lock[r]) == 0)
-		{
-			ft_putstr("LOCK SECOND\t");
-			ft_putnbrn(r);
-			ft_putnbrendl(i);
-			return (ft_eat(e, l, r, i));
-		}
-		if (!ft_strcmp(e->state[r], THINK) && TRY(&e->lock[r]) == EBUSY)
+		if ((c % TT) == 0)
+			e->hp[i] -= 1;
+		if (e->i_state[NEXT(i)] == 1 || e->i_state[PREV(i)] == 1)
 		{
 			UNLOCK(&e->lock[l]);
-			v = 1;
+			return (ft_rest(e, i, c));
 		}
-		ft_sleep(1, t);
-		if (v == 1)
-		{
-			if (TRY(&e->lock[l]) != 0)
-			{
-				ft_putstr("HOHO lost \t");
-			ft_putnbrn(l);
-			ft_putnbrendl(i);
-
-				return ft_rest(e, i, c);
-			}
-
-		}
+		usleep(TS);
 		if (e->roll == 3)
 			break;
 		c++;
 	}
 	UNLOCK(&e->lock[l]);
+}
+
+void		ft_rest(t_env *e, int i, int ti)
+{
+	int		c;
+	int		rt;
+
+	c = ti;
+	rt = (REST_T * TT);
+	if (!ft_strcmp(e->state[i], EAT))
+		e->state[i] = ft_strdup("REST(PE)");
+	else if (!ft_strcmp(e->state[i], THINK))
+		e->state[i ] = ft_strdup("REST(PT)");
+	else
+		e->state[i] = ft_strdup(REST);
+	while (c < rt)
+	{
+		if (ft_is_dead(e) != 0)
+			e->roll = 3;
+		if (c % TT == 0)
+			e->hp[i] -= 1;
+		usleep(TS);
+		if (e->roll == 3)
+			break;
+		c++;
+	}
 }
 
 void		ft_eat(t_env *e, int l, int r, int i)
@@ -94,6 +94,7 @@ void		ft_eat(t_env *e, int l, int r, int i)
 	int		c;
 
 	c = 0;
+	e->i_state[i] = 0;
 	e->state[i] = ft_strdup(EAT);
 	e->hp[i] = MAX_LIFE;
 	while (c < EAT_T)
@@ -109,24 +110,3 @@ void		ft_eat(t_env *e, int l, int r, int i)
 	if (e->roll != 3)
 		ft_rest(e, i, 0);
 }
-
-void		ft_rest(t_env *e, int i, int ti)
-{
-	int		c;
-	int		t;
-
-	c = 0;
-	e->state[i] = ft_strdup(REST);
-	while (c < (REST_T - ti))
-	{
-		if (e->roll == 3)
-			break;
-		t = time(NULL);
-		if (ft_is_dead(e) != 0)
-			e->roll = 3;
-		e->hp[i] -= 1;
-		ft_sleep(1, t);
-		c++;
-	}
-}
-

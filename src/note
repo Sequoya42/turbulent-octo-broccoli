@@ -1,0 +1,68 @@
+1		2		3		4		5		6		7
+
+R		E		R		R		T		R		R
+
+R		R		T		R		T		R		R
+
+				
+
+4: lock fi 
+	try ni (r) 		r % 2 = 0 ------->>> i % 2 = 0
+
+
+4: lock ni
+	try fi (r)		r % 2 != 0 ------>>> i % 2 = 0
+
+
+5: lock fi
+	try ni(r)		r % 2 = 0 ------>>> i % 2 != 0
+
+5:	lock ni
+	try fi(r)		r % 2 != 0 ------>>> i % 2 != 0
+
+
+	if (i % 2 == 0)
+		r = r % 2 == 0 ? prev(i) : NEXT(i)
+	else
+		r = r % 2 == 0 ? NEXT(i) : prev(i)
+
+
+
+if i % 2 == 0 then FI % 2 != 0 so NI = NEXT(FI)
+
+if i % 2 == 0 then NI % 2 = 0 so FI = NEXT(i)
+
+if i % 2 != 0 then FI % 2 != 0 so NI = next(i)
+
+if i % 2 != 0 then NI % 2 != 0 so FI = PREV(FI)
+
+if (i % 2 == 0)
+
+
+
+THINK
+----
+
+while (c < THINK_T * TT)
+
+if (bla)
+ft_rest(e, i, 
+c++;
+
+-
+c = 50.000
+donc rest doit 50.000
+donc c < t - c
+--------------------
+
+REST
+----
+
+	REST_T == 1
+
+c doit valoir TT vu que rest = 1
+donc while (c < 100.000 - 
+WHILE (C < (REST_T * TT) - ti)
+{
+	USLEEP(10)
+}
