@@ -44,7 +44,7 @@ void			ft_try(t_env *e, int l, int r, int i)
 void			try_both(t_env *e, int i)
 {
 	e->i_state[i] = 1;
-	usleep(TS + 50);
+	usleep(TS + 20);
 	if (TRY(&e->lock[FI]) == 0)
 	{
 		if (TRY(&e->lock[NI]) == 0)
@@ -53,12 +53,7 @@ void			try_both(t_env *e, int i)
 			ft_think(e, FI, i);
 	}
 	else if (TRY(&e->lock[NI]) == 0)
-	{
-		if (TRY(&e->lock[FI]) == 0)
-			ft_eat(e, FI, NI, i);
-		else
 		ft_think(e, NI, i);
-	}
 	else
 	{
 		e->i_state[i] = 0;

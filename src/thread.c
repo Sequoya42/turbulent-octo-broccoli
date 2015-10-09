@@ -32,14 +32,19 @@ void			ft_init_thread(t_env *e)
 void	ft_pause(t_env *e, int i)
 {
 		char	*s;
+		char	*s2;
+		static int		t2 = 0;
 
 		e->roll = 3;
+		t2 = t2 == 0 ? time(NULL) - e->tm : t2;
+		s2 = ft_strjoin("Time : ", ft_itoa(t2));
 		ft_put_philo(e);
 		if (i == 1)
 			s = ft_strdup("Now, it is time... To DAAAAAAAANCE ! ! !\n");
 		else
-			s = ft_strdup("Someone died !");
+			s = ft_strdup("Someone died! ");
 		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT / 2 + 100 ,MRED, s);
+		mlx_string_put(e->mlx, e->win, WIDTH / 2, HEIGHT / 2 + 140 ,MRED, s2);
 		e->tm = 0;
 		ft_destroy_mutex(e);
 }
