@@ -33,7 +33,7 @@ void			ft_try(t_env *e, int l, int r, int i)
 	else if (TRY(&e->lock[r]) == EBUSY && !ft_strcmp(e->state[ch], THINK))
 	{
 		e->i_state[i] = 1;
-		usleep(TS + 50);
+		usleep(TS + 36);
 		if (TRY(&e->lock[r]) == 0)
 			ft_eat(e, l, r, i);
 	}
@@ -44,7 +44,7 @@ void			ft_try(t_env *e, int l, int r, int i)
 void			try_both(t_env *e, int i)
 {
 	e->i_state[i] = 1;
-	usleep(TS + 20);
+	usleep(TS + 36);
 	if (TRY(&e->lock[FI]) == 0)
 	{
 		if (TRY(&e->lock[NI]) == 0)

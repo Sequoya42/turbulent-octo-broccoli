@@ -12,6 +12,19 @@
 
 #include "philosopher.h"
 
+void			never_die(t_env *e, int i)
+{
+	if (e->imortal != 1)
+		return ;
+	if (e->hp[i] == 1)
+	{
+		ft_putnbrendl(i);
+		LOCK(&e->lock[FI]);
+		LOCK(&e->lock[NI]);
+		ft_eat(e, FI, NI, i);
+	}
+}
+
 void			*ft_alg(void *p)
 {
 	t_env		*e;
@@ -21,20 +34,23 @@ void			*ft_alg(void *p)
 	i = e->id;
 	while (e->roll != 3)
 	{
-		if (TRY(&e->lock[FI]) == 0)
+		never_die(e, i);
+		if (!ft_strcmp(e->state[NEXT(i)], THINK) &&
+			!ft_strcmp(e->state[PREV(i)], THINK))
+			try_both(e, i);
+		else if (TRY(&e->lock[FI]) == 0)
 			ft_try(e, FI, NI, i);
 		else if (TRY(&e->lock[NI]) == 0)
 			ft_try(e, NI, FI, i);
-		else if (!ft_strcmp(e->state[NEXT(i)], THINK) && !ft_strcmp(e->state[PREV(i)], THINK))
-			try_both(e, i);
 		else
 			ft_rest(e, i, 0);
 	}
+	if (pthread_detach(e->th[i]))
+		ft_putendl("Error while detaching thread");
 	return (p);
 }
 
-
-void		ft_think(t_env *e, int l, int i)
+void			ft_think(t_env *e, int l, int i)
 {
 	int		c;
 	int		rt;
@@ -56,13 +72,13 @@ void		ft_think(t_env *e, int l, int i)
 		}
 		usleep(TS);
 		if (e->roll == 3)
-			break;
+			break ;
 		c++;
 	}
 	UNLOCK(&e->lock[l]);
 }
 
-void		ft_rest(t_env *e, int i, int ti)
+void			ft_rest(t_env *e, int i, int ti)
 {
 	int		c;
 	int		rt;
@@ -72,7 +88,7 @@ void		ft_rest(t_env *e, int i, int ti)
 	if (!ft_strcmp(e->state[i], EAT))
 		e->state[i] = ft_strdup("REST(PE)");
 	else if (!ft_strcmp(e->state[i], THINK))
-		e->state[i ] = ft_strdup("REST(PT)");
+		e->state[i] = ft_strdup("REST(PT)");
 	else
 		e->state[i] = ft_strdup(REST);
 	while (c < rt)
@@ -81,14 +97,14 @@ void		ft_rest(t_env *e, int i, int ti)
 			e->roll = 3;
 		if (c % TT == 0)
 			e->hp[i] -= 1;
-		usleep(TS);
 		if (e->roll == 3)
-			break;
+			break ;
+		usleep(TS);
 		c++;
 	}
 }
 
-void		ft_eat(t_env *e, int l, int r, int i)
+void			ft_eat(t_env *e, int l, int r, int i)
 {
 	int		t;
 	int		c;
@@ -100,7 +116,7 @@ void		ft_eat(t_env *e, int l, int r, int i)
 	while (c < EAT_T)
 	{
 		if (e->roll == 3)
-			break;
+			break ;
 		t = time(NULL);
 		ft_sleep(1, t);
 		c++;

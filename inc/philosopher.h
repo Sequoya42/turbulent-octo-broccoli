@@ -13,44 +13,42 @@
 #ifndef PHILOSOPHER_H
 # define PHILOSOPHER_H
 
-// usleep time exit
-//pthread_: create detach join
-//pthread_mutex: init destroy trlock lock unlock
+# include <time.h>
+# include <pthread.h>
+# include <mlx.h>
+# include "libft.h"
 
-#include <time.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <mlx.h>
-#include "libft.h"
-#include <errno.h>
+# define EBUSY			(16)
 
-# define REST	"At rest"
-# define EAT	"Eating !"
-# define THINK	"Thinking about.."
+# define MBLUE			0X6CA6CD
+# define MRED			0XCD3333
+# define MYEL			0XFFB90F
+# define MGRN			0X287070
+# define MPURP			0X9f4b69
 
-# define MBLUE	0X6CA6CD
-# define MRED	0XCD3333
-# define MYEL	0XFFB90F
-# define MGRN	0X287070
-# define MPURP	0X9f4b69
+# define REST			"At rest"
+# define EAT			"Eating !"
+# define THINK			"Thinking about.."
 
-# define WIDTH 	(e->width)
-# define HEIGHT	(e->height)
+# define PHILO			7
 
-# define MK_ESC	53
-# define MK_P	35
-# define MK_R	15
+# define MAX_LIFE		5
+# define EAT_T			1
+# define REST_T			1
+# define THINK_T		1
+# define TIMEOUT		60
 
-# define NEXT(x)	((x + 1) % 7)
-# define PREV(x) 	((x == 0) ? 6 : (x - 1) % 7)
-# define PHILO		7
+# define WIDTH 			(e->width)
+# define HEIGHT			(e->height)
 
-# define MAX_LIFE	5
-# define EAT_T		1
-# define REST_T		1
-# define THINK_T	1
-# define TIMEOUT	60
+# define MK_ESC			53
+# define MK_P			35
+# define MK_R			15
+
+# define NEXT(x)		((x + 1) % PHILO)
+# define PREV(x) 		((x == 0) ? (PHILO - 1) : (x - 1) % PHILO)
+
+# define MLX_WIN		e->mlx, e->win
 
 # define TT				(10000)
 # define TS				(100)
@@ -86,30 +84,26 @@ typedef struct			s_env
 	int					roll;
 	int					height;
 	int					width;
+	int					imortal;
 }						t_env;
 
+t_env					*init_env(int k);
+void					ft_mlx_loop(t_env *e);
 
-t_env			*init_env(void);
-void			get_name(t_env *e);
-int				key_hook(int keycode, t_env *e);
-void			ft_mlx_loop(t_env *e);
+void					ft_put_philo(t_env *e);
+void					*ft_alg(void *p);
+void					ft_think(t_env *e, int l, int i);
+void					ft_eat(t_env *e, int l, int r, int i);
+void					ft_rest(t_env *e, int i, int ti);
 
-void			ft_put_philo(t_env *e);
-void			print_life(t_env *e);
-void			*ft_alg(void *p);
-void			ft_think(t_env *e, int l, int i);
-void			ft_eat(t_env *e, int l, int r, int i);
-void			ft_rest(t_env *e, int i, int ti);
+void					ft_init_thread(t_env *e);
+void					ft_sleep(int n, int t);
+void					ft_pause(t_env *e, int i);
+int						ft_is_dead(t_env *e);
+void					ft_destroy_mutex(t_env *e);
 
-void			ft_init_thread(t_env *e);
-void			ft_sleep(int n, int t);
-void			ft_pause(t_env *e, int i);
-int				ft_is_dead(t_env *e);
-void			ft_destroy_mutex(t_env *e);
-
-int				ft_choice(int i, int r);
-void			ft_try(t_env *e, int l, int r, int i);
-void			try_both(t_env *e, int i);
-
+int						ft_choice(int i, int r);
+void					ft_try(t_env *e, int l, int r, int i);
+void					try_both(t_env *e, int i);
 
 #endif

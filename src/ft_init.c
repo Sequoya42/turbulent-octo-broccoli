@@ -12,7 +12,7 @@
 
 #include "philosopher.h"
 
-static char const *g_img_tab[7] = 
+static char const *g_img_tab[7] =
 {
 	"./bitmap/aw.xpm",
 	"./bitmap/buddha.xpm",
@@ -23,7 +23,7 @@ static char const *g_img_tab[7] =
 	"./bitmap/scpn.xpm",
 };
 
-static char const *g_name_tab[7] = 
+static char const *g_name_tab[7] =
 {
 	"Alan Watts",
 	"Buddha",
@@ -42,7 +42,7 @@ void				get_name(t_env *e)
 	while (i < PHILO)
 	{
 		e->tab[i] = (char*)g_img_tab[i % 7];
-		e->name[i] =(char*)g_name_tab[i % 7];
+		e->name[i] = (char*)g_name_tab[i % 7];
 		e->state[i] = ft_strdup("START");
 		e->hp[i] = MAX_LIFE;
 		e->i_state[i] = 0;
@@ -52,7 +52,7 @@ void				get_name(t_env *e)
 	}
 }
 
-t_env				*init_env(void)
+t_env				*init_env(int k)
 {
 	t_env			*e;
 
@@ -68,12 +68,12 @@ t_env				*init_env(void)
 		e->height = 700;
 	e->mlx = mlx_init();
 	e->img = mlx_new_image(e->mlx, WIDTH, HEIGHT);
-	e->win = mlx_new_window(e->mlx,WIDTH, HEIGHT, "Philosopher");
+	e->win = mlx_new_window(e->mlx, WIDTH, HEIGHT, "Philosopher");
 	e->d = mlx_get_data_addr(e->img, &e->bpp, &e->line_size,
 &e->endian);
 	get_name(e);
 	e->id = 0;
 	e->roll = 1;
+	e->imortal = k;
 	return (e);
 }
-

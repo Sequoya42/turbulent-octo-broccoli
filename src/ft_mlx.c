@@ -12,14 +12,14 @@
 
 #include "philosopher.h"
 
-void		ft_quit(t_env *e)
+void			ft_quit(t_env *e)
 {
 	ft_pause(e, 1);
 	mlx_destroy_window(e->mlx, e->win);
 	exit(0);
 }
 
-int		loop_hook(t_env *e)
+int				loop_hook(t_env *e)
 {
 	int	t;
 
@@ -33,10 +33,9 @@ int		loop_hook(t_env *e)
 	else
 		ft_pause(e, 2);
 	return (e->tm);
-
 }
 
-int			key_hook(int keycode, t_env *e)
+int				key_hook(int keycode, t_env *e)
 {
 	mlx_clear_window(e->mlx, e->win);
 	if (keycode == MK_ESC)
@@ -50,31 +49,31 @@ void			ft_put_philo(t_env *e)
 	int			y;
 	int			wh;
 
-	y = 100;
+	y = 50;
 	d = 0;
 	wh = 0;
-	mlx_clear_window(e->mlx, e->win);		
+	mlx_clear_window(e->mlx, e->win);
 	while (d < PHILO)
 	{
-		e->img2 = mlx_xpm_file_to_image(e->mlx, e->tab[d],  &wh, &wh);
+		e->img2 = mlx_xpm_file_to_image(e->mlx, e->tab[d], &wh, &wh);
 		if (d != 0 && !(d % 7))
 			y += 350;
 		if (!ft_strcmp(e->state[d], EAT))
-			mlx_string_put(e->mlx, e->win, TX(d)+ 10, y - 50, MPURP, e->state[d]);
+			mlx_string_put(MLX_WIN, TX(d) + 10, y, MPURP, e->state[d]);
 		else if (!ft_strcmp(e->state[d], THINK))
-			mlx_string_put(e->mlx, e->win, TX(d)+ 10, y - 50, MGRN, e->state[d]);
+			mlx_string_put(MLX_WIN, TX(d) + 10, y, MGRN, e->state[d]);
 		else
-			mlx_string_put(e->mlx, e->win, TX(d)+ 10, y - 50, MYEL, e->state[d]);
-		mlx_put_image_to_window(e->mlx, e->win, e->img2, TX(d), y);
-		mlx_string_put(e->mlx, e->win, TX(d)+ 10, y + 210, MBLUE, e->name[d]);
-		mlx_string_put(e->mlx, e->win, TX(d)+ 10, y + 260, MRED, ft_itoa(e->hp[d]));
+			mlx_string_put(MLX_WIN, TX(d) + 10, y, MYEL, e->state[d]);
+		mlx_put_image_to_window(MLX_WIN, e->img2, TX(d), y + 50);
+		mlx_string_put(MLX_WIN, TX(d) + 10, y + 260, MBLUE, e->name[d]);
+		mlx_string_put(MLX_WIN, TX(d) + 10, y + 310, MRED, ft_itoa(e->hp[d]));
 		d++;
 	}
 }
 
 void			ft_mlx_loop(t_env *e)
 {
-		mlx_key_hook(e->win, key_hook, e);
-		mlx_loop_hook(e->mlx, loop_hook, e);
-		mlx_loop(e->mlx);
+	mlx_key_hook(e->win, key_hook, e);
+	mlx_loop_hook(e->mlx, loop_hook, e);
+	mlx_loop(e->mlx);
 }

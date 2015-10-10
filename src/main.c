@@ -19,7 +19,6 @@ void			ft_sleep(int n, int t)
 
 	i = 0;
 	ti = time(NULL) - t;
-
 	while (i < n)
 	{
 		usleep(1000000);
@@ -30,9 +29,14 @@ void			ft_sleep(int n, int t)
 int				main(int ac, char **av)
 {
 	t_env		*e;
-	if (ac != 1 || !av[0])
-		ft_exit("No need for argument\n");
-	e = init_env();
+	int			k;
+
+	k = 0;
+	if (ac == 2 && !ft_strcmp(av[1], "immortal"))
+		k = 1;
+	else if (ac != 1)
+		ft_exit("No argument needed\n");
+	e = init_env(k);
 	e->tm = time(NULL);
 	ft_init_thread(e);
 	ft_mlx_loop(e);
